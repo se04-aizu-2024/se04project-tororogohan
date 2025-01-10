@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithm Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sorting Algorithm Test</h1>
+    <p>Click the button below to test the sorting algorithms.</p>
+    <button onclick="testSortingAlgorithms()">Run Tests</button>
+    <div id="results" class="result"></div>
+
+    <script>
+        function quickSort(arr) {
+            let orderList = [];
+
+            function quickSortRecursive(array, start, end) {
+                if (start >= end) return;
+
+                let pivotIndex = partition(array, start, end);
+                quickSortRecursive(array, start, pivotIndex - 1);
+                quickSortRecursive(array, pivotIndex + 1, end);
+            }
+
+            function partition(array, start, end) {
+                let pivot = array[end];
+                let i = start - 1;
+
+                for (let j = start; j < end; j++) {
+                    if (array[j] <= pivot) {
+                        i++;
+                        [array[i], array[j]] = [array[j], array[i]];
+                        orderList.push(["swap", i, j]);
+                    }
+                }
+
+                [array[i + 1], array[end]] = [array[end], array[i + 1]];
+                orderList.push(["pivot_swap", i + 1, end]);
+
+                return i + 1;
+            }
+
+            quickSortRecursive(arr, 0, arr.length - 1);
+            return orderList;
+        }
+
+        function selectionSort(arr) {
+            let n = arr.length;
+            let orderList = [];
+
+            for (let i = 0; i < n - 1; i++) {
+                let minIndex = i;
+
+                for (let j = i + 1; j < n; j++) {
+                    if (arr[j] < arr[minIndex]) {
+                        minIndex = j;
+                    }
+                }
+
+                if (minIndex !== i) {
+                    [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+                    orderList.push(["swap", i, minIndex]);
+                }
+            }
+
+            return orderList;
+        }
+
+        function heapSort(arr) {
+            let orderList = [];
+
+            function heapify(n, i) {
+                let largest = i;
+                let left = 2 * i + 1;
+                let right = 2 * i + 2;
+
+                if (left < n && arr[left] > arr[largest]) {
+                    largest = left;
+                }
+
+                if (right < n && arr[right] > arr[largest]) {
+                    largest = right;
+                }
+
+                if (largest !== i) {
+                    [arr[i], arr[largest]] = [arr[largest], arr[i]];
+                    orderList.push(["swap", i, largest]);
+                    heapify(n, largest);
+                }
+            }
+
+            let n = arr.length;
+
+            for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+                heapify(n, i);
+            }
+
+            for (let i = n - 1; i > 0; i--) {
+                [arr[0], arr[i]] = [arr[i], arr[0]];
+                orderList.push(["swap", 0, i]);
+                heapify(i, 0);
+            }
+
+            return orderList;
+        }
+
+        function bubbleSort(arr) {
+            let n = arr.length;
+            let orderList = [];
+
+            for (let i = 0; i < n - 1; i++) {
+                let swapped = false;
+                for (let j = 0; j < n - i - 1; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                        orderList.push(["swap", j, j + 1]);
+                        swapped = true;
+                    }
+                }
+                if (!swapped) break;
+            }
+
+            return orderList;
+        }
+
+        function testSortingAlgorithms() {
+            const resultsDiv = document.getElementById("results");
+            const originalArray = [1, 22, 3, 2, 13, 24];
+            const algorithms = [
+                { name: "Quick Sort", func: quickSort },
+                { name: "Selection Sort", func: selectionSort },
+                { name: "Heap Sort", func: heapSort },
+                { name: "Bubble Sort", func: bubbleSort }
+            ];
+
+            resultsDiv.innerHTML = "<h2>Results</h2>";
+
+            algorithms.forEach(algorithm => {
+                const arrayCopy = [...originalArray];
+                const orderList = algorithm.func(arrayCopy);
+                resultsDiv.innerHTML += `
+                    <h3>${algorithm.name}</h3>
+                    <p>Original Array: [${originalArray}]</p>
+                    <p>Sorted Array: [${arrayCopy}]</p>
+                    <p>Operation History: ${JSON.stringify(orderList)}</p>
+                `;
+            });
+        }
+    </script>
