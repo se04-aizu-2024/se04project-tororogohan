@@ -1,6 +1,5 @@
 class AnimationEngine {
     canvas;
-    canvas_size;
     context;
 
     // 配列や変数の描画位置を管理
@@ -23,14 +22,12 @@ class AnimationEngine {
         this.variants = [];
         this.arrays = [];
         this.arrays_length = [];
-        this.canvas_size = { height: height, width: width, };
         this.canvas = document.getElementById(canvasID);
         this.context = canvas.getContext("2d");
         this.resize(width, height);
     }
 
     resize(width, height) {
-        this.canvas_size = { height: height, width: width, };
         this.canvas.setAttribute("width", width);
         this.canvas.setAttribute("height", height);
 
@@ -41,7 +38,12 @@ class AnimationEngine {
         this.draw();
     }
 
+    clear() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
     draw() {
+        this.clear();
         for (const key in this.variants) {
             const val = this.variants[key];
             this.draw_var(key, val);
@@ -71,7 +73,7 @@ class AnimationEngine {
         max_y += this.var_size.height + this.var_size.margin;
 
         this.variants[name] = {
-            x: this.canvas_size.width - 2 * this.var_size.width,
+            x: this.canvas.width - 2 * this.var_size.width,
             y: max_y,
             value: value,
             marked: false,
@@ -95,6 +97,20 @@ class AnimationEngine {
                 marked: false,
             }
             next_x += this.var_size.width;
+        }
+    }
+
+    divideAt(name, idx) {
+        let key = (name, idx) => name + "[" + idx + "]";
+        for (let i = idx; i < this.arrays_length[name]; i++) {
+            this.arrays[key(name, i)].x += this.var_size.margin / 2;
+        }
+    }
+
+    mergeAt(name, idx) {
+        let key = (name, idx) => name + "[" + idx + "]";
+        for (let i = idx; i < this.arrays_length[name]; i++) {
+            this.arrays[key(name, i)].x -= this.var_size.margin / 2;
         }
     }
 }
