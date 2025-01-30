@@ -10,6 +10,24 @@
 </head>
 
 <body>
+    <div id="form">
+        <label for="algorithm-select">algorithm:</label>
+        <select name="algorithm" id="algorithm-select">
+            <option value="Selection-Sort">Selection Sort</option>
+            <option value="Bubble-Sort">Bubble Sort</option>
+            <option value="Heap-Sort">Heap Sort</option>
+        </select>
+
+        <label for="algorithm-select">exe-mode:</label>
+        <select name="mode" id="mode-select">
+            <option value="step">step</option>
+            <option value="auto">auto</option>
+        </select>
+
+        <input type="text" id="array" name="array" pattern="/([0-9]|\s)+/" />
+        <input id="execute" type="button" value="execute" onclick="main()">
+    </div>
+
     <div id="main">
         <canvas id="canvas"></canvas>
     </div>

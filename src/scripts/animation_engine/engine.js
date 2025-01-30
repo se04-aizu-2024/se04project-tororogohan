@@ -51,6 +51,7 @@ class AnimationEngine {
     }
 
     draw() {
+        requestAnimationFrame(() => this.draw());
         this.clear();
         this.context.font = this.msg_font.val;
         this.context.fillText(this.description, this.msg_font.size, this.msg_font.size);
@@ -161,7 +162,6 @@ class AnimationEngine {
 
         await this.swapAnimation(v1, v2);
 
-        console.log(v1x, v2x);
         if (v1name in this.arrays) {
             this.arrays[v1name] = v2;
         }
@@ -197,17 +197,13 @@ class AnimationEngine {
             this.draw();
             if (elapsed < duration) {
                 requestAnimationFrame(loop);
-                console.log("a");
             }
             else {
                 [v1.x, v2.x] = [v2x, v1x];
                 [v1.y, v2.y] = [v2y, v1y];
-                console.log([v1.x, v2.x]);
-                console.log("b");
             }
         };
         loop();
         await sleep(duration + 30); // アニメーションが終わるまで待つ
-        console.log("check");
     }
 }
