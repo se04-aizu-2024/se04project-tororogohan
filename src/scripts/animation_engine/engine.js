@@ -135,25 +135,19 @@ class AnimationEngine {
         this.getVar(name).value = value;
     }
 
-    swap(v1name, v2name) {
+    async swap(v1name, v2name) {
         let v1 = this.getVar(v1name);
         let v2 = this.getVar(v2name);
         if (v1.x > v2.x) {
             [v1, v2] = [v2, v1];
             [v1name, v2name] = [v2name, v1name];
         }
-
         let v1x = v1.x, v1y = v1.y;
         let v2x = v2.x, v2y = v2.y;
-        const loop = () => {
-            this.draw();
-            let reqId = requestAnimationFrame(loop);
-            cancelAnimationFrame(reqId);
-        };
-        loop();
-        [v1.x, v1.y] = [v2x, v2y];
-        [v2.x, v2.y] = [v1x, v1y];
 
+        await this.swapAnimation(v1, v2);
+
+        console.log(v1x, v2x);
         if (v1name in this.arrays) {
             this.arrays[v1name] = v2;
         }
@@ -167,4 +161,47 @@ class AnimationEngine {
             this.variants[v2name] = v1;
         }
     }
+
+    async swapAnimation(v1, v2) {
+        let v1x = v1.x, v1y = v1.y;
+        let v2x = v2.x, v2y = v2.y;
+
+        let duration = 500; // 500ms
+        let xDistance = v1x - v2x; // signed distance
+        let yDistance = v1y - v2y;
+        let start = Date.now();
+        const loop = async () => {
+            const elapsed = Math.max(1, Date.now() - start);
+            const progress = elapsed / duration;
+
+            v1.x = v1x - xDistance * progress;
+            v2.x = v2x + xDistance * progress;
+
+            v1.y = v1y - yDistance * progress + this.var_size.height * Math.sin(progress * Math.PI);
+            v2.y = v2y + yDistance * progress - this.var_size.height * Math.sin(progress * Math.PI);
+
+            this.draw();
+            if (elapsed < duration) {
+                requestAnimationFrame(loop);
+                console.log("a");
+            }
+            else {
+                [v1.x, v2.x] = [v2x, v1x];
+                [v1.y, v2.y] = [v2y, v1y];
+                console.log([v1.x, v2.x]);
+                console.log("b");
+            }
+        };
+        loop();
+        await sleep(duration + 30); // アニメーションが終わるまで待つ
+        console.log("check");
+    }
+}
+
+function sleep(msec) {
+    return new Promise(function (resolve) {
+
+        setTimeout(function () { resolve() }, msec);
+
+    })
 }
