@@ -118,7 +118,7 @@ class AnimationEngine {
         }
     }
 
-    get_var(name) {
+    getVar(name) {
         if (name in this.arrays) {
             return this.arrays[name];
         }
@@ -128,10 +128,10 @@ class AnimationEngine {
     }
 
     color(name, color) {
-        this.get_var(name).bg = color;
+        this.getVar(name).bg = color;
     }
 
     write(name, value) {
-        this.get_var(name).value = value;
+        this.getVar(name).value = value;
     }
 }
