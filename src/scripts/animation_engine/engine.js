@@ -7,8 +7,15 @@ class AnimationEngine {
     arrays_length;
     variants;
 
-    font = {
-        size: 22,
+    description;
+
+    msg_font = {
+        size: 26,
+        font: "serif",
+        val: "26px serif",
+    }
+    var_font = {
+        size: 18,
         font: "serif",
         val: "18px serif"
     };
@@ -19,6 +26,7 @@ class AnimationEngine {
     };
 
     constructor(canvasID, width, height) {
+        this.description = "";
         this.variants = [];
         this.arrays = [];
         this.arrays_length = [];
@@ -44,6 +52,8 @@ class AnimationEngine {
 
     draw() {
         this.clear();
+        this.context.font = this.msg_font.val;
+        this.context.fillText(this.description, this.msg_font.size, this.msg_font.size);
         for (const key in this.variants) {
             const val = this.variants[key];
             this.draw_var(key, val);
@@ -60,10 +70,10 @@ class AnimationEngine {
         this.context.strokeRect(val.x, val.y, this.var_size.width, this.var_size.height);
 
         this.context.fillStyle = "#000000";
-        this.context.font = this.font.val;
+        this.context.font = this.var_font.val;
         this.context.fillText(name,
             val.x + this.var_size.width * 0.2,
-            val.y + this.var_size.height + this.font.size);
+            val.y + this.var_size.height + this.var_font.size);
         this.context.fillText(val.value,
             val.x + this.var_size.width * 0.4,
             val.y + this.var_size.height * 0.8);
@@ -133,6 +143,10 @@ class AnimationEngine {
 
     write(name, value) {
         this.getVar(name).value = value;
+    }
+
+    describe(msg) {
+        this.description = msg;
     }
 
     async swap(v1name, v2name) {
