@@ -27,14 +27,14 @@ function bubbleSort(arr) {
         }
         if (!swapped) {
             // 交換がなければソート終了
-            orderList.push([COLOR, `swapped`, "#FFB"]);
+            orderList.push([COLOR, `swapped`, FOCUS1]);
             orderList.push([DESCRIBE, `FINISH because no swap`]);
             break;
         }
         else if (i + 1 == n - 1) {
             orderList.push([DESCRIBE, `FINISH`]);
         }
-        orderList.push([COLOR, `arr[${n - i - 1}]`, "#EEE"]);
+        orderList.push([COLOR, `arr[${n - i - 1}]`, UNFOCUS]);
     }
     return orderList;
 }
