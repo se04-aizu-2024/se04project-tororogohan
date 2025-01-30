@@ -25,7 +25,7 @@ async function main() {
     const queries = sorter[alg](arr);
     console.log(queries);
     const step = async (i) => {
-        await engine.describe(queries[i][1]);
+        engine.describe(queries[i][1]);
         i++;
         while (i < queries.length && queries[i][0] != DESCRIBE) {
             switch (queries[i][0]) {
@@ -51,7 +51,7 @@ async function main() {
                     engine.margeAt(queries[i][1], queries[i][2]);
                     break;
                 case WAIT:
-                    await engine.wait(order[i][1]);
+                    await engine.wait(queries[i][1]);
                     break;
             }
             i++;

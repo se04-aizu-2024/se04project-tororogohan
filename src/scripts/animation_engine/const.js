@@ -7,3 +7,8 @@ const COLOR = "color";
 const DIV = "divide_at";
 const MARGE = "marge_at";
 const WAIT = "wait";
+
+const FOCUS1 = "#FFB";
+const FOCUS2 = "#BFB";
+const UNFOCUS = "#EEE";
+const CLEAR = "#FFF";
