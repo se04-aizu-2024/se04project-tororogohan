@@ -55,7 +55,11 @@ class AnimationEngine {
     }
 
     draw_var(name, val) {
+        this.context.fillStyle = val.bg;
+        this.context.fillRect(val.x, val.y, this.var_size.width, this.var_size.height);
         this.context.strokeRect(val.x, val.y, this.var_size.width, this.var_size.height);
+
+        this.context.fillStyle = "#000000";
         this.context.font = this.font.val;
         this.context.fillText(name,
             val.x + this.var_size.width * 0.2,
@@ -76,7 +80,7 @@ class AnimationEngine {
             x: this.canvas.width - 2 * this.var_size.width,
             y: max_y,
             value: value,
-            marked: false,
+            bg: "#FFFFFF",
         };
     }
 
@@ -94,7 +98,7 @@ class AnimationEngine {
                 x: next_x,
                 y: max_y,
                 value: value[i],
-                marked: false,
+                bg: "#FFFFFF",
             }
             next_x += this.var_size.width;
         }
@@ -111,6 +115,15 @@ class AnimationEngine {
         let key = (name, idx) => name + "[" + idx + "]";
         for (let i = idx; i < this.arrays_length[name]; i++) {
             this.arrays[key(name, i)].x -= this.var_size.margin / 2;
+        }
+    }
+
+    color(name, color) {
+        if (name in this.arrays) {
+            this.arrays[name].bg = color;
+        }
+        else {
+            this.variants[name].bg = color;
         }
     }
 }
