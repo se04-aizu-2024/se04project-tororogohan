@@ -12,8 +12,6 @@ async function main() {
         "Heap-Sort": heapSort,
     };
 
-    console.log(sorter);
-
     let alg = document.getElementById("algorithm-select").value;
     let mode = document.getElementById("mode-select").value;
     let arr = document.getElementById("array").value;
@@ -29,28 +27,28 @@ async function main() {
     const step = async (i) => {
         engine.describe(queries[i][1]);
         i++;
-        while (i < queries.length || queries[i][0] != DESCRIBE) {
+        while (i < queries.length && queries[i][0] != DESCRIBE) {
             switch (queries[i][0]) {
                 case VAR:
                     engine.defVar(queries[i][1], queries[i][2]);
                     break;
                 case ARR:
-                    engine.defVar(queries[i][1], queries[i][2]);
+                    engine.defArray(queries[i][1], queries[i][2]);
                     break;
                 case SWAP:
                     await engine.swap(queries[i][1], queries[i][2]);
                     break;
                 case WRITE:
-                    engine.write(queries[i][1], queries[i][2]);
+                    await engine.write(queries[i][1], queries[i][2]);
                     break;
                 case COLOR:
-                    engine.color(queries[i][1], queries[i][2]);
+                    await engine.color(queries[i][1], queries[i][2]);
                     break;
                 case DIV:
-                    engine.divideAt(queries[i][1], queries[i][2]);
+                    await engine.divideAt(queries[i][1], queries[i][2]);
                     break;
                 case MARGE:
-                    engine.margeAt(queries[i][1], queries[i][2]);
+                    await engine.margeAt(queries[i][1], queries[i][2]);
                     break;
             }
             i++;
@@ -60,6 +58,7 @@ async function main() {
 
     let i = 0;
     while (i < queries.length) {
-        i = step(i);
+        i = await step(i);
+        console.log(i);
     }
 }
