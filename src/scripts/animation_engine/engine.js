@@ -118,21 +118,20 @@ class AnimationEngine {
         }
     }
 
-    color(name, color) {
+    get_var(name) {
         if (name in this.arrays) {
-            this.arrays[name].bg = color;
+            return this.arrays[name];
         }
         else {
-            this.variants[name].bg = color;
+            return this.variants[name];
         }
     }
 
+    color(name, color) {
+        this.get_var(name).bg = color;
+    }
+
     write(name, value) {
-        if (name in this.arrays) {
-            this.arrays[name].value = value;
-        }
-        else {
-            this.variants[name].value = value;
-        }
+        this.get_var(name).value = value;
     }
 }
