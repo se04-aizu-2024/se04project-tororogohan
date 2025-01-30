@@ -1,1 +1,10 @@
-main
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#main {
+    width: 95vw;
+    height: 70vh;
+}
