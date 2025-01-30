@@ -126,4 +126,13 @@ class AnimationEngine {
             this.variants[name].bg = color;
         }
     }
+
+    write(name, value) {
+        if (name in this.arrays) {
+            this.arrays[name].value = value;
+        }
+        else {
+            this.variants[name].value = value;
+        }
+    }
 }
