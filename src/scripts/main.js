@@ -6,6 +6,13 @@ async function main() {
         engine.resize(document.getElementById("main").clientWidth,
             document.getElementById("main").clientHeight);
     });
+    const sorter = {
+        "Selection-Sort": selectionSort,
+        "Bubble-Sort": bubbleSort,
+        "Heap-Sort": heapSort,
+    };
+
+    console.log(sorter);
 
     let alg = document.getElementById("algorithm-select").value;
     let mode = document.getElementById("mode-select").value;
@@ -16,7 +23,43 @@ async function main() {
     else {
         return;
     }
-    console.log(arr);
 
-    engine.defArray("arr", arr);
+    const queries = sorter[alg](arr);
+    console.log(queries);
+    const step = async (i) => {
+        engine.describe(queries[i][1]);
+        i++;
+        while (i < queries.length || queries[i][0] != DESCRIBE) {
+            switch (queries[i][0]) {
+                case VAR:
+                    engine.defVar(queries[i][1], queries[i][2]);
+                    break;
+                case ARR:
+                    engine.defVar(queries[i][1], queries[i][2]);
+                    break;
+                case SWAP:
+                    await engine.swap(queries[i][1], queries[i][2]);
+                    break;
+                case WRITE:
+                    engine.write(queries[i][1], queries[i][2]);
+                    break;
+                case COLOR:
+                    engine.color(queries[i][1], queries[i][2]);
+                    break;
+                case DIV:
+                    engine.divideAt(queries[i][1], queries[i][2]);
+                    break;
+                case MARGE:
+                    engine.margeAt(queries[i][1], queries[i][2]);
+                    break;
+            }
+            i++;
+        }
+        return i;
+    };
+
+    let i = 0;
+    while (i < queries.length) {
+        i = step(i);
+    }
 }
