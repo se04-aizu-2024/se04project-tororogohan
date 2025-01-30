@@ -134,4 +134,37 @@ class AnimationEngine {
     write(name, value) {
         this.getVar(name).value = value;
     }
+
+    swap(v1name, v2name) {
+        let v1 = this.getVar(v1name);
+        let v2 = this.getVar(v2name);
+        if (v1.x > v2.x) {
+            [v1, v2] = [v2, v1];
+            [v1name, v2name] = [v2name, v1name];
+        }
+
+        let v1x = v1.x, v1y = v1.y;
+        let v2x = v2.x, v2y = v2.y;
+        const loop = () => {
+            this.draw();
+            let reqId = requestAnimationFrame(loop);
+            cancelAnimationFrame(reqId);
+        };
+        loop();
+        [v1.x, v1.y] = [v2x, v2y];
+        [v2.x, v2.y] = [v1x, v1y];
+
+        if (v1name in this.arrays) {
+            this.arrays[v1name] = v2;
+        }
+        else {
+            this.variants[v1name] = v2;
+        }
+        if (v2name in this.arrays) {
+            this.arrays[v2name] = v1;
+        }
+        else {
+            this.variants[v2name] = v1;
+        }
+    }
 }
