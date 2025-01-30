@@ -120,7 +120,6 @@ class AnimationEngine {
         for (let i = idx; i < this.arrays_length[name]; i++) {
             this.arrays[key(name, i)].x += this.var_size.margin / 2;
         }
-        await sleep(200);
     }
 
     async mergeAt(name, idx) {
@@ -128,7 +127,6 @@ class AnimationEngine {
         for (let i = idx; i < this.arrays_length[name]; i++) {
             this.arrays[key(name, i)].x -= this.var_size.margin / 2;
         }
-        await sleep(200);
     }
 
     getVar(name) {
@@ -142,17 +140,14 @@ class AnimationEngine {
 
     async color(name, color) {
         this.getVar(name).bg = color;
-        await sleep(200);
     }
 
     async write(name, value) {
         this.getVar(name).value = value;
-        await sleep(200);
     }
 
     async describe(msg) {
         this.description = msg;
-        await sleep(200);
     }
 
     async swap(v1name, v2name) {
@@ -210,5 +205,8 @@ class AnimationEngine {
         };
         loop();
         await sleep(duration + 30); // アニメーションが終わるまで待つ
+    }
+    async wait(ms) {
+        await sleep(ms);
     }
 }

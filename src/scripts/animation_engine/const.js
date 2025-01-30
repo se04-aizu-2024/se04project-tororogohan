@@ -6,3 +6,4 @@ const WRITE = "write";
 const COLOR = "color";
 const DIV = "divide_at";
 const MARGE = "marge_at";
+const WAIT = "wait";
