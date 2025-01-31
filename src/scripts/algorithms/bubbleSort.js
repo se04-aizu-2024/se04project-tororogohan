@@ -1,3 +1,5 @@
+// const { DESCRIBE, VAR, ARR, WRITE, SWAP, COLOR, FOCUS1, UNFOCUS } = require("../animation_engine/const");
+
 function bubbleSort(arr) {
     let n = arr.length;
     let orderList = []; // アニメーション用の操作履歴を保存するリスト
@@ -38,3 +40,5 @@ function bubbleSort(arr) {
     }
     return orderList;
 }
+
+// module.export = bubbleSort;
