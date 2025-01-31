@@ -5,7 +5,7 @@ const SWAP = "swap";
 const WRITE = "write";
 const COLOR = "color";
 const DIV = "divide_at";
-const MARGE = "marge_at";
+const MERGE = "merge_at";
 const WAIT = "wait";
 
 const FOCUS1 = "#FFB";
