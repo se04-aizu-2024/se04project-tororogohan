@@ -48,8 +48,8 @@ async function main() {
                 case DIV:
                     engine.divideAt(queries[i][1], queries[i][2]);
                     break;
-                case MARGE:
-                    engine.margeAt(queries[i][1], queries[i][2]);
+                case MERGE:
+                    engine.mergeAt(queries[i][1], queries[i][2]);
                     break;
                 case WAIT:
                     await engine.wait(queries[i][1]);
@@ -72,7 +72,9 @@ async function main() {
         let i = 0;
         step_btn.disabled = false;
         step_btn.addEventListener("click", async () => {
+            step_btn.disabled = true;
             i = await step(i);
+            step_btn.disabled = false;
             if (i >= queries.length) {
                 step_btn.disabled = true;
             }
