@@ -12,6 +12,7 @@ async function main() {
         "Heap-Sort": heapSort,
     };
 
+    let step_btn = document.getElementById("step");
     let alg = document.getElementById("algorithm-select").value;
     let mode = document.getElementById("mode-select").value;
     let arr = document.getElementById("array").value;
@@ -59,9 +60,22 @@ async function main() {
         return i;
     };
 
-    let i = 0;
-    while (i < queries.length) {
-        i = await step(i);
-        console.log(i);
+    if (mode == "auto") {
+        let i = 0;
+        while (i < queries.length) {
+            if (mode == "auto") {
+                i = await step(i);
+            }
+        }
+    }
+    else {
+        let i = 0;
+        step_btn.disabled = false;
+        step_btn.addEventListener("click", async () => {
+            i = await step(i);
+            if (i >= queries.length) {
+                step_btn.disabled = true;
+            }
+        });
     }
 }
