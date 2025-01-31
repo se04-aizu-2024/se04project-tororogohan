@@ -115,14 +115,14 @@ class AnimationEngine {
         }
     }
 
-    divideAt(name, idx) {
+    async divideAt(name, idx) {
         let key = (name, idx) => name + "[" + idx + "]";
         for (let i = idx; i < this.arrays_length[name]; i++) {
             this.arrays[key(name, i)].x += this.var_size.margin / 2;
         }
     }
 
-    mergeAt(name, idx) {
+    async mergeAt(name, idx) {
         let key = (name, idx) => name + "[" + idx + "]";
         for (let i = idx; i < this.arrays_length[name]; i++) {
             this.arrays[key(name, i)].x -= this.var_size.margin / 2;
@@ -138,15 +138,15 @@ class AnimationEngine {
         }
     }
 
-    color(name, color) {
+    async color(name, color) {
         this.getVar(name).bg = color;
     }
 
-    write(name, value) {
+    async write(name, value) {
         this.getVar(name).value = value;
     }
 
-    describe(msg) {
+    async describe(msg) {
         this.description = msg;
     }
 
@@ -205,5 +205,8 @@ class AnimationEngine {
         };
         loop();
         await sleep(duration + 30); // アニメーションが終わるまで待つ
+    }
+    async wait(ms) {
+        await sleep(ms);
     }
 }
